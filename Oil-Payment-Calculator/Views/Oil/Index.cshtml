@@ -1,0 +1,68 @@
+﻿@model Oil_Payment_Calculator.Models.OilCalculationVM
+
+@{
+    ViewData["Title"] = "Υπολογισμός Πετρελαίου";
+}
+
+<h2 class="mb-4">Υπολογισμός Πετρελαίου</h2>
+
+
+<form asp-action="Index" method="post">
+
+    <div class="mb-4">
+        <label class="form-label fw-bold">Τιμή πετρελαίου (€)</label>
+        <input asp-for="OilPricePerLiter" class="form-control" />
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Διαμέρισμα</th>
+                <th>Προηγούμενη</th>
+                <th>Τωρινή</th>
+                <th>Διαφορά</th>
+                <th>Συντελεστής</th>
+                <th>Γινόμενο</th>
+                <th>Μερίδιο</th>
+                <th>Πληρωτέο (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Apartments.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Model.Apartments[i].ApartmentName
+
+                        <input type="hidden" asp-for="Apartments[i].ApartmentId" />
+                        <input type="hidden" asp-for="Apartments[i].ApartmentName" />
+                        <input type="hidden" asp-for="Apartments[i].ApartmentType" />
+                    </td>
+
+                    <td>
+                        <input asp-for="Apartments[i].PreviousReading" class="form-control" />
+                    </td>
+
+                    <td>
+                        <input asp-for="Apartments[i].CurrentReading" class="form-control" />
+                    </td>
+
+                    <td>@Model.Apartments[i].Difference</td>
+                    <td>@Model.Apartments[i].Coefficient</td>
+                    <td>@Model.Apartments[i].Product</td>
+                    <td>@Model.Apartments[i].Share</td>
+                    <td>@Model.Apartments[i].AmountToPay.ToString("C2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="mt-4">
+        <h5>Σύνολο: <strong>@Model.TotalSum</strong></h5>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">
+        Υπολογισμός
+    </button>
+
+</form>

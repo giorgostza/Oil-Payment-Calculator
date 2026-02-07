@@ -3,9 +3,9 @@
 
     public enum ApartmentType
     {
-        Floor,        // Οροφος
-        Shop,         // Καταστημα-ισογειο
-        Basement      // Υπογειο
+        Floor = 1,        // Οροφος
+        Shop = 2,         // Καταστημα-ισογειο
+        Basement = 3     // Υπογειο
     }
 
     public class Apartment

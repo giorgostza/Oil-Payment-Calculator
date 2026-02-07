@@ -16,6 +16,7 @@
 
         public int GetDifference()
         {
+
             return CurrentReading - PreviousReading;
         }
 
