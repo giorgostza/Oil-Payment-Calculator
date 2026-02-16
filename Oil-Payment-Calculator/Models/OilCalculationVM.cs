@@ -4,11 +4,13 @@
     {
         public decimal OilPricePerLiter { get; set; }
 
+        public decimal TotalLiters { get; set; }
+
         public List<ApartmentCalculationVM> Apartments { get; set; } = new();
 
         public decimal TotalSum { get; set; }
 
-      
+        public decimal TotalSumToPay { get; set; }
 
     }
 }

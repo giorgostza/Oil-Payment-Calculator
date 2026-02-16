@@ -62,11 +62,11 @@ namespace Oil_Payment_Calculator.Controllers
             foreach (var apt in model.Apartments)
             {
                 apt.Share = model.TotalSum == 0 ? 0 : apt.Product / model.TotalSum;
-                apt.AmountToPay = apt.Share * model.OilPricePerLiter;
+                apt.AmountToPay = apt.Share * model.OilPricePerLiter * model.TotalLiters;
                  
             }
 
-
+            model.TotalSumToPay = model.Apartments.Sum(a => a.AmountToPay);
 
             return View(model);
         }
