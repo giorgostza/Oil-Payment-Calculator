@@ -10,7 +10,7 @@
         public int PreviousReading { get; set; }
         public int CurrentReading { get; set; }
 
-        public int Difference { get; set; }
+        public decimal Difference { get; set; }
 
         public decimal Coefficient { get; set; }
         public decimal Product { get; set; }

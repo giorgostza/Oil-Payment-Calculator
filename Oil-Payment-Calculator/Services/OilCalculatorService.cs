@@ -6,35 +6,53 @@ namespace Oil_Payment_Calculator.Services
     {
         public void Calculate(OilCalculationVM model)
         {
-            // ΒΗΜΑ 1: Διαφορές + Συντελεστές
+            CalculateProducts(model);
+            CalculateShares(model);
+            CalculateFinalAmounts(model);
+        }
+
+
+        private void CalculateProducts(OilCalculationVM model)
+        {
             foreach (var apt in model.Apartments)
             {
-                apt.Difference = apt.CurrentReading - apt.PreviousReading;
-
-                apt.Coefficient = apt.ApartmentType switch
-                {
-                    ApartmentType.Floor => 17500m,
-                    ApartmentType.Shop => 16640m,
-                    ApartmentType.Basement => 6000m,
-                    _ => 0
-                };
-
-                apt.Product = apt.Difference * apt.Coefficient;
+                apt.Difference = CalculateDifference(apt);
+                apt.Product = apt.Difference * GetCoefficient(apt);
             }
 
-            // ΒΗΜΑ 2: ΣΥΝΟΛΟ 1
             model.TotalSum = model.Apartments.Sum(a => a.Product);
+        }
 
-
-            // ΒΗΜΑ 3: Μερίδιο & Πληρωμή
+        private void CalculateShares(OilCalculationVM model)
+        {
             foreach (var apt in model.Apartments)
             {
                 apt.Share = model.TotalSum == 0 ? 0 : apt.Product / model.TotalSum;
-                apt.AmountToPay = apt.Share * model.OilPricePerLiter * model.TotalLiters;
 
+            }
+        }
+
+        private void CalculateFinalAmounts(OilCalculationVM model)
+        {
+            foreach (var apt in model.Apartments)
+            {
+                apt.AmountToPay = apt.Share * model.OilPricePerLiter * model.TotalLiters;
             }
 
             model.TotalSumToPay = model.Apartments.Sum(a => a.AmountToPay);
         }
+
+
+        private decimal CalculateDifference(ApartmentCalculationVM apt)
+        {
+            return Math.Max(0, apt.CurrentReading - apt.PreviousReading);
+        }
+
+        private decimal GetCoefficient(ApartmentCalculationVM apt)
+        {
+            // Θα το αλλάξουμε στο επόμενο βήμα
+            return 0;
+        }
+
     }
 }
