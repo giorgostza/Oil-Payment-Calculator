@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Oil_Payment_Calculator.Data;
 using Oil_Payment_Calculator.Models;
+using Oil_Payment_Calculator.Services;
 
 namespace Oil_Payment_Calculator.Controllers
 {
     public class OilController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public OilController(ApplicationDbContext context)
+        private readonly IOilCalculatorService _calculator;
+        public OilController(ApplicationDbContext context, IOilCalculatorService calculator)
         {
             _context = context;
+            _calculator = calculator;
         }
 
         
@@ -38,35 +40,11 @@ namespace Oil_Payment_Calculator.Controllers
         [HttpPost]
         public IActionResult Index(OilCalculationVM model)
         {
-            // ΒΗΜΑ 1: Διαφορές + Συντελεστές
-            foreach (var apt in model.Apartments)
-            {
-                apt.Difference = apt.CurrentReading - apt.PreviousReading;
 
-                apt.Coefficient = apt.ApartmentType switch
-                {
-                    ApartmentType.Floor => 17500m,
-                    ApartmentType.Shop => 16640m,
-                    ApartmentType.Basement => 6000m,
-                    _ => 0
-                };
+            if (!ModelState.IsValid)
+                return View(model);
 
-                apt.Product = apt.Difference * apt.Coefficient;
-            }
-
-            // ΒΗΜΑ 2: ΣΥΝΟΛΟ 1
-            model.TotalSum = model.Apartments.Sum(a => a.Product);
-
-            
-            // ΒΗΜΑ 3: Μερίδιο & Πληρωμή
-            foreach (var apt in model.Apartments)
-            {
-                apt.Share = model.TotalSum == 0 ? 0 : apt.Product / model.TotalSum;
-                apt.AmountToPay = apt.Share * model.OilPricePerLiter * model.TotalLiters;
-                 
-            }
-
-            model.TotalSumToPay = model.Apartments.Sum(a => a.AmountToPay);
+            _calculator.Calculate(model);
 
             return View(model);
         }
