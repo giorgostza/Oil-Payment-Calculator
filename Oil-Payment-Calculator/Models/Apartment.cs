@@ -17,6 +17,6 @@
 
         public ApartmentType Type { get; set; }
 
-
+        public decimal Coefficient { get; set; }
     }
 }

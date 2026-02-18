@@ -50,8 +50,8 @@ namespace Oil_Payment_Calculator.Services
 
         private decimal GetCoefficient(ApartmentCalculationVM apt)
         {
-            // Θα το αλλάξουμε στο επόμενο βήμα
-            return 0;
+            
+            return apt.Coefficient;
         }
 
     }

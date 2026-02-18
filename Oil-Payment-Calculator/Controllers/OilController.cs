@@ -28,7 +28,8 @@ namespace Oil_Payment_Calculator.Controllers
                 {
                     ApartmentId = a.Id,
                     ApartmentName = a.Name,
-                    ApartmentType = a.Type
+                    ApartmentType = a.Type,
+                    Coefficient = a.Coefficient
                 }).ToList()
             };
 

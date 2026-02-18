@@ -25,50 +25,58 @@ namespace Oil_Payment_Calculator.Data
 
             base.OnModelCreating(modelBuilder);
 
-           
-            
+            modelBuilder.Entity<Apartment>().Property(a => a.Coefficient).HasPrecision(18, 2); // 18 συνολικα ψηφια , 2 δεκαδικα
+
+
+
             modelBuilder.Entity<Apartment>().HasData(
 
                  new Apartment
                  {
                      Id = 1,
                      Name = "Όροφος Δημήτρη",
-                     Type = ApartmentType.Floor
+                     Type = ApartmentType.Floor,
+                     Coefficient = 17500m
                  },
 
                   new Apartment
                   {
                       Id = 2,
                       Name = "Καταστημα - Ισογειο Δημήτρη",
-                      Type = ApartmentType.Shop
+                      Type = ApartmentType.Shop,
+                      Coefficient = 16640m
                   },
 
                    new Apartment
                    {
                        Id = 3,
                        Name = "Υπογειο Δημήτρη",
-                       Type = ApartmentType.Basement
+                       Type = ApartmentType.Basement,
+                       Coefficient = 6000m
                    },
 
                     new Apartment
                     {
                         Id = 4,
                         Name = "Όροφος Νικου",
-                        Type = ApartmentType.Floor
+                        Type = ApartmentType.Floor,
+                        Coefficient = 17500m
                     },
 
                      new Apartment
                      {
                          Id = 5,
                          Name = "Καταστημα - Ισογειο Νικου",
-                         Type = ApartmentType.Shop
+                         Type = ApartmentType.Shop,
+                         Coefficient = 16640m
                      },
 
                       new Apartment
                       {
                           Id = 6,
                           Name = "Υπογειο Νικου",
-                          Type = ApartmentType.Basement
+                          Type = ApartmentType.Basement,
+                          Coefficient = 6000m
                       }
 
                      
